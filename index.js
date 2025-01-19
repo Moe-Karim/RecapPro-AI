@@ -18,4 +18,6 @@ async function transcribeAudio(audioPath) {
     body: form,
     headers: { Authorization: `Bearer ${API_KEY}`, ...form.getHeaders() },
   });
+  if (!response.ok) throw new Error("Transcription failed");
+  return await response.json();
 }
