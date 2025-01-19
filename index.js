@@ -67,6 +67,12 @@ app.post("/transcribe", async (req, res) => {
 });
 
 app.post("/extract-topics", async (req, res) => {
-
+    try {
+      const { transcription } = req.body;
+      const topics = await extractTopics(transcription);
+      res.json({ topics });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   });
 app.listen(PORT, () => console.log(`AI server running on port ${PORT}`));
