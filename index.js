@@ -1,17 +1,22 @@
 import fs from "fs";
 import fetch from "node-fetch";
 import FormData from "form-data";
+import dotenv from "dotenv";
 
+dotenv.config();
 const API_KEY = process.env.API_KEY;
 
-
+if (!API_KEY) {
+    console.error("❌ Missing API_KEY in .env file!");
+    process.exit(1);
+  }
 export async function transcribeAudioWithGroq(audioPath) {
     if (!fs.existsSync(audioPath)) {
       throw new Error(`Audio file not found at path: ${audioPath}`);
     }
+    console.log(`Api_key:${API_KEY}`);
 
     console.log("Transcribing audio with Groq:", audioPath);
-  
     const form = new FormData();
     form.append("file", fs.createReadStream(audioPath));
     form.append("model", "whisper-large-v3-turbo");
