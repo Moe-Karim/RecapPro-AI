@@ -25,6 +25,9 @@ async function transcribeAudio(audioPath) {
 async function extractTopics(transcription) {
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions",{
         method: "POST",
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+        })
       });
   }
 
