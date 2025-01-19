@@ -10,5 +10,6 @@ app.use(express.json());
 async function transcribeAudio(audioPath) {
   const form = new FormData();
   form.append("file", fs.createReadStream(audioPath));
+  form.append("model", "whisper-large-v3-turbo");
 
 }
