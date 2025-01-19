@@ -21,3 +21,8 @@ async function transcribeAudio(audioPath) {
   if (!response.ok) throw new Error("Transcription failed");
   return await response.json();
 }
+
+app.post("/transcribe", async (req, res) => {
+    const { audioPath } = req.body;
+  });
+
