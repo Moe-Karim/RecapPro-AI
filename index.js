@@ -24,5 +24,11 @@ async function transcribeAudio(audioPath) {
 
 app.post("/transcribe", async (req, res) => {
     const { audioPath } = req.body;
+    try {
+        const transcription = await transcribeAudio(audioPath);
+        res.json({ transcription });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
   });
 
