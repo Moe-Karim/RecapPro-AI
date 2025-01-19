@@ -27,7 +27,18 @@ async function extractTopics(transcription) {
         method: "POST",
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
-        })
+          messages: [
+            {
+              role: "system",
+              content: "You are an AI that extracts structured topic-based segments from transcripts."
+            },
+            {
+              role: "user",
+              content: "Analyze the following transcript and segment it into topics. Return ONLY a JSON object formatted as follows:\n\n```json\n{\n  \"topics\": [\n    {\n      \"topic\": \"Topic Name\",\n      \"start\": start_time_in_seconds,\n      \"end\": end_time_in_seconds\n    }\n  ]\n}\n```\n\nEnsure timestamps are in seconds and numbers are correctly formatted as floats. Do not include any explanations or extra text." + JSON.stringify(transcription),
+            }
+          ]
+        }),
+
       });
   }
 
