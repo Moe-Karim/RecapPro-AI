@@ -9,4 +9,6 @@ const PORT = 5000;
 app.use(express.json());
 async function transcribeAudio(audioPath) {
   const form = new FormData();
+  form.append("file", fs.createReadStream(audioPath));
+
 }
