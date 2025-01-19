@@ -66,4 +66,7 @@ app.post("/transcribe", async (req, res) => {
   }
 });
 
+app.post("/extract-topics", async (req, res) => {
+
+  });
 app.listen(PORT, () => console.log(`AI server running on port ${PORT}`));
