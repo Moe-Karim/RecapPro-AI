@@ -38,7 +38,10 @@ async function extractTopics(transcription) {
             }
           ]
         }),
-
+        headers: {
+          Authorization: `Bearer ${API_KET}`,
+          "Content-Type": "application/json",
+        },
       });
   }
 
