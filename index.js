@@ -13,4 +13,9 @@ async function transcribeAudio(audioPath) {
   form.append("model", "whisper-large-v3-turbo");
   form.append("language", "en");
 
+  const response = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
+    method: "POST",
+    body: form,
+    headers: { Authorization: `Bearer ${API_KEY}`, ...form.getHeaders() },
+  });
 }
