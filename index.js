@@ -6,10 +6,10 @@ import dotenv from "dotenv";
 dotenv.config();
 const API_KEY = process.env.API_KEY;
 
-if (!API_KEY) {
-    console.error("❌ Missing API_KEY in .env file!");
-    process.exit(1);
-  }
+// if (!API_KEY) {
+//     console.error("❌ Missing API_KEY in .env file!");
+//     process.exit(1);
+//   }
 export async function transcribeAudioWithGroq(audioPath) {
     if (!fs.existsSync(audioPath)) {
       throw new Error(`Audio file not found at path: ${audioPath}`);
@@ -29,7 +29,7 @@ export async function transcribeAudioWithGroq(audioPath) {
       body: form,
       headers: {
         ...form.getHeaders(),
-        Authorization: `Bearer ${API_KEY}`,
+        Authorization: `Bearer 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`,
       },
     });
   
@@ -68,7 +68,7 @@ export async function transcribeAudioWithGroq(audioPath) {
           ]
         }),
         headers: {
-          Authorization: `Bearer ${API_KEY}`,  
+          Authorization: `Bearer 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`,
           "Content-Type": "application/json",
         },
       });
