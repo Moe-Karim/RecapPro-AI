@@ -1,6 +1,7 @@
 {
   "name": "recappro-ai",
   "version": "1.0.0",
+  "type": "module",
   "description": "RecapPro AI tools",
   "main": "index.js",
   "scripts": {
