@@ -13,47 +13,57 @@ async function transcribeAudio(audioPath) {
   form.append("model", "whisper-large-v3-turbo");
   form.append("language", "en");
 
-  const response = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
-    method: "POST",
-    body: form,
-    headers: { Authorization: `Bearer ${API_KEY}`, ...form.getHeaders() },
-  });
+  const response = await fetch(
+    "https://api.groq.com/openai/v1/audio/transcriptions",
+    {
+      method: "POST",
+      body: form,
+      headers: { Authorization: `Bearer ${API_KEY}`, ...form.getHeaders() },
+    }
+  );
   if (!response.ok) throw new Error("Transcription failed");
   return await response.json();
 }
 
 async function extractTopics(transcription) {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions",{
-        method: "POST",
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            {
-              role: "system",
-              content: "You are an AI that extracts structured topic-based segments from transcripts."
-            },
-            {
-              role: "user",
-              content: "Analyze the following transcript and segment it into topics. Return ONLY a JSON object formatted as follows:\n\n```json\n{\n  \"topics\": [\n    {\n      \"topic\": \"Topic Name\",\n      \"start\": start_time_in_seconds,\n      \"end\": end_time_in_seconds\n    }\n  ]\n}\n```\n\nEnsure timestamps are in seconds and numbers are correctly formatted as floats. Do not include any explanations or extra text." + JSON.stringify(transcription),
-            }
-          ]
-        }),
-        headers: {
-          Authorization: `Bearer ${API_KET}`,
-          "Content-Type": "application/json",
-        },
-      });
-  }
+  const response = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are an AI that extracts structured topic-based segments from transcripts.",
+          },
+          {
+            role: "user",
+            content:
+              'Analyze the following transcript and segment it into topics. Return ONLY a JSON object formatted as follows:\n\n```json\n{\n  "topics": [\n    {\n      "topic": "Topic Name",\n      "start": start_time_in_seconds,\n      "end": end_time_in_seconds\n    }\n  ]\n}\n```\n\nEnsure timestamps are in seconds and numbers are correctly formatted as floats. Do not include any explanations or extra text.' +
+              JSON.stringify(transcription),
+          },
+        ],
+      }),
+      headers: {
+        Authorization: `Bearer ${API_KET}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
+  return await response.json();
+}
 
 app.post("/transcribe", async (req, res) => {
-    const { audioPath } = req.body;
-    try {
-        const transcription = await transcribeAudio(audioPath);
-        res.json({ transcription });
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
-  });
+  const { audioPath } = req.body;
+  try {
+    const transcription = await transcribeAudio(audioPath);
+    res.json({ transcription });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
-  app.listen(PORT, () => console.log(`AI server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`AI server running on port ${PORT}`));
