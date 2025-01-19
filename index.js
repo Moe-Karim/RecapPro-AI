@@ -22,6 +22,11 @@ async function transcribeAudio(audioPath) {
   return await response.json();
 }
 
+async function extractTopics(transcription) {
+
+  }
+
+
 app.post("/transcribe", async (req, res) => {
     const { audioPath } = req.body;
     try {
