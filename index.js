@@ -151,7 +151,8 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
       console.log(srtContent);
     });
 
-
+    fs.writeFileSync(srtPath, srtContent, "utf8");
+    return srtPath;
   }
 
   function formatTime(seconds) {
