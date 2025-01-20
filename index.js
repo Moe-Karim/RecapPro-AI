@@ -119,6 +119,9 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
       "Content-Type": "application/json",
     },
   });
+  const data = await response.json();
+  const suggest = data.choices[0].message.content.trim().replace(/^```json\n|\n```$/g, "");
+  const suggestJson=JSON.parse(suggest);
 }
   async function generateSRT(segments) {
     let textContent = ""; 
