@@ -48,7 +48,7 @@ export async function transcribeAudioWithGroq(audioPath) {
 
     return {Topic:topics ,Content:textSrt};
   }
- export async function getTopics(transcription) {
+export async function getTopics(transcription) {
     try {
       console.log("Getting topics...");
   
@@ -89,8 +89,8 @@ export async function transcribeAudioWithGroq(audioPath) {
       throw new Error("Failed to parse JSON from Groq API.");
     }
   }
-
-
+export async function fillGapWithAI(transcription, gaps, outputDir) {
+}
   async function generateSRT(segments) {
     let textContent = ""; 
   
@@ -102,8 +102,8 @@ export async function transcribeAudioWithGroq(audioPath) {
   
     return textContent.trim();
   }
-  
-  
+
+
   function formatSRTTime(seconds) {
     const hours = Math.floor(seconds / 3600).toString().padStart(2, "0");
     const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
