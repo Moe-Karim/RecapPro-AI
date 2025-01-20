@@ -115,7 +115,7 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
       ]
     }),
     headers: {
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer ${API_KEY}`,
       "Content-Type": "application/json",
     },
   });
