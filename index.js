@@ -48,6 +48,7 @@ export async function transcribeAudioWithGroq(audioPath) {
 
     return {Topic:topics ,Content:textSrt};
   }
+
 export async function getTopics(transcription) {
     try {
       console.log("Getting topics...");
@@ -89,6 +90,7 @@ export async function getTopics(transcription) {
       throw new Error("Failed to parse JSON from Groq API.");
     }
   }
+
 export async function fillGapWithAI(transcription, gaps, outputDir) {
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
@@ -124,7 +126,8 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
   const suggestJson=JSON.parse(suggest);
   const srtFile = generateGapSRT(suggestJson.suggestions,outputDir);
   return srtFile;
-}
+  }
+
   async function generateSRT(segments) {
     let textContent = ""; 
   
@@ -137,12 +140,27 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
     return textContent.trim();
   }
 
+  function generateGapSRT(transcript, outputDir) {
+    const srtPath = `${outputDir}subtitles.srt`;
+    let srtContent = "";
+
+    transcript.forEach((item, index) => {
+      const startTime = formatTime(item.start);
+      const endTime = formatTime(item.end);
+      srtContent += `${index + 1}\n${startTime} --> ${endTime}\n${item.suggestion}\n\n`;
+      console.log(srtContent);
+    });
+
+
+  }
+
   function formatTime(seconds) {
     const date = new Date(0);
     date.setSeconds(seconds);
     const time = date.toISOString().substr(11, 12); // HH:mm:ss,SSS
     return time.replace(".", ",");
   }
+
   function formatSRTTime(seconds) {
     const hours = Math.floor(seconds / 3600).toString().padStart(2, "0");
     const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
