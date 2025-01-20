@@ -90,6 +90,15 @@ export async function getTopics(transcription) {
     }
   }
 export async function fillGapWithAI(transcription, gaps, outputDir) {
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "system",
+          content: "You are an AI that helps to fill gaps in transcripts."
+        },
 }
   async function generateSRT(segments) {
     let textContent = ""; 
