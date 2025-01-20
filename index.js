@@ -122,6 +122,8 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
   const data = await response.json();
   const suggest = data.choices[0].message.content.trim().replace(/^```json\n|\n```$/g, "");
   const suggestJson=JSON.parse(suggest);
+  const srtFile = generateGapSRT(suggestJson.suggestions,outputDir);
+  return srtFile;
 }
   async function generateSRT(segments) {
     let textContent = ""; 
