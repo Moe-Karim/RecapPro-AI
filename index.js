@@ -114,6 +114,11 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
                   }
       ]
     }),
+    headers: {
+      Authorization: `Bearer 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`,
+      "Content-Type": "application/json",
+    },
+  });
 }
   async function generateSRT(segments) {
     let textContent = ""; 
