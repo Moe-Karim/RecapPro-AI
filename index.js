@@ -137,7 +137,12 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
     return textContent.trim();
   }
 
-
+  function formatTime(seconds) {
+    const date = new Date(0);
+    date.setSeconds(seconds);
+    const time = date.toISOString().substr(11, 12); // HH:mm:ss,SSS
+    return time.replace(".", ",");
+  }
   function formatSRTTime(seconds) {
     const hours = Math.floor(seconds / 3600).toString().padStart(2, "0");
     const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
