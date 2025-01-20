@@ -99,6 +99,21 @@ export async function fillGapWithAI(transcription, gaps, outputDir) {
           role: "system",
           content: "You are an AI that helps to fill gaps in transcripts."
         },
+        {
+          role: "user",
+          content: "The following transcription contains gaps:" + transcription +
+          " Fill in the missing contents based on the context and fill the pace of the timestamp." +
+          " For each gap:" +
+          " 1. Consider the **duration of the gap**. The longer the gap, the longer the generated suggestion should be. Shorter gaps should result in more concise suggestions, while longer gaps should allow for more detailed or expanded content." +
+          " 2. If the gap duration is **long enough** (e.g., more than 5 seconds), **divide the suggestion into multiple parts**, evenly distributed across the gap. Each part should have its own start and end time, and the content should flow naturally across these parts." +
+          " 3. If the gap is **short**, return a **single, brief sentence**." +
+          " 4. Ensure that the content fits within the context and pacing of the surrounding transcription, maintaining a natural flow." +
+          " Here are the gaps:" + JSON.stringify(gaps) +
+          " Return ONLY a JSON object formatted as follows:\n\n```json\n{\n  \"suggestions\": [\n    {\n      \"suggestion\": \"Topic sentence\",\n      \"start\": start_time_in_seconds,\n      \"end\": end_time_in_seconds\n    }\n  ]\n}\n```" +
+          " Ensure timestamps are in seconds and numbers are correctly formatted as floats."
+                  }
+      ]
+    }),
 }
   async function generateSRT(segments) {
     let textContent = ""; 
